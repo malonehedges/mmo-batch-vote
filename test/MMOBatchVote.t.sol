@@ -9,7 +9,7 @@ contract MMOBatchVoteTest is Test {
     MoneyMakingOpportunity mmo = new MoneyMakingOpportunity();
     MMOBatchVote batchVote = new MMOBatchVote(address(mmo));
 
-    uint256 constant tokenCount = 10;
+    uint256 constant tokenCount = 20;
 
     function setUp() public {
         for (uint256 i = 0; i < tokenCount; i++) {
@@ -50,6 +50,36 @@ contract MMOBatchVoteTest is Test {
             assertEq(mmo.votes(1, i), true);
         }
         assertEq(mmo.ownerOf(1), actor);
+    }
+
+    function testVote_nonBatched() public {
+        address actor = makeAddress(0);
+        vm.startPrank(actor);
+        mmo.castVote(1, 1, true);
+        mmo.castVote(1, 2, true);
+        mmo.castVote(1, 3, true);
+        mmo.castVote(1, 4, true);
+        mmo.castVote(1, 5, true);
+        mmo.castVote(1, 6, true);
+        mmo.castVote(1, 7, true);
+        mmo.castVote(1, 8, true);
+        mmo.castVote(1, 9, true);
+        mmo.castVote(1, 10, true);
+        mmo.castVote(1, 11, true);
+        mmo.castVote(1, 12, true);
+        mmo.castVote(1, 13, true);
+        mmo.castVote(1, 14, true);
+        mmo.castVote(1, 15, true);
+        mmo.castVote(1, 16, true);
+        mmo.castVote(1, 17, true);
+        mmo.castVote(1, 18, true);
+        mmo.castVote(1, 19, true);
+    }
+
+    function testVote_batched() public {
+        address actor = makeAddress(0);
+        vm.startPrank(actor);
+        mmo.safeTransferFrom(actor, address(batchVote), 1, abi.encode(1, 19));
     }
 
     // Helpers
