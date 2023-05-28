@@ -17,4 +17,5 @@ interface IMoneyMakingOpportunity {
     function batchUpdateTokenURI(uint256 from, uint256 to) external;
     function lockURI() external;
     function transferFrom(address from, address to, uint256 tokenId) external;
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldata data) external;
 }
