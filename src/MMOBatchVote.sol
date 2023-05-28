@@ -16,12 +16,18 @@ contract MMOBatchVote is IERC721Receiver {
         override
         returns (bytes4)
     {
-        // Ignored to save gas. Other tokens would likely not match the vote abi.
+        // Ignored to save gas. Other tokens would likely not match the vote abi and fail
+        // to transfer. However, to be safe, don't send non-MMO tokens to this contract.
         // if (msg.sender != address(MMO)) revert NotMMOToken();
 
-        uint256[] memory votes = abi.decode(data, (uint256[]));
-        for (uint256 i = 0; i < votes.length;) {
-            MMO.castVote(tokenId, votes[i], true);
+        (uint256 start, uint256 end) = abi.decode(data, (uint256, uint256));
+        uint256 loopEnd;
+        unchecked {
+            loopEnd = end + 1;
+        }
+
+        for (uint256 i = start; i < loopEnd;) {
+            MMO.castVote(tokenId, i, true);
 
             unchecked {
                 ++i;

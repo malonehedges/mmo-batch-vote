@@ -34,36 +34,21 @@ contract MMOBatchVoteTest is Test {
         new MMOBatchVote(address(0));
     }
 
-    function testVote() public {
-        assertEq(mmo.votes(1, 1), false);
-
-        uint256[] memory votes = new uint256[](1);
-        votes[0] = 1;
-        bytes memory data = abi.encode(votes);
-
-        address actor = makeAddress(0);
-        vm.prank(actor);
-        mmo.safeTransferFrom(actor, address(batchVote), 1, data);
-
-        assertEq(mmo.votes(1, 1), true);
-        assertEq(mmo.ownerOf(1), actor);
-    }
-
     function testBatchVote() public {
         assertEq(mmo.votes(1, 1), false);
         assertEq(mmo.votes(1, 2), false);
 
-        uint256[] memory votes = new uint256[](2);
-        votes[0] = 1;
-        votes[1] = 2;
-        bytes memory data = abi.encode(votes);
+        uint256 start = 1;
+        uint256 end = 9;
+        bytes memory data = abi.encode(start, end);
 
         address actor = makeAddress(0);
         vm.prank(actor);
         mmo.safeTransferFrom(actor, address(batchVote), 1, data);
 
-        assertEq(mmo.votes(1, 1), true);
-        assertEq(mmo.votes(1, 2), true);
+        for (uint256 i = start; i < end + 1; i++) {
+            assertEq(mmo.votes(1, i), true);
+        }
         assertEq(mmo.ownerOf(1), actor);
     }
 
