@@ -23,8 +23,12 @@ contract MMOBatchVote is IERC721Receiver {
         }
 
         uint256[] memory votes = abi.decode(data, (uint256[]));
-        for (uint256 i = 0; i < votes.length; i++) {
+        for (uint256 i = 0; i < votes.length;) {
             MMO.castVote(tokenId, votes[i], true);
+
+            unchecked {
+                ++i;
+            }
         }
 
         MMO.transferFrom(address(this), from, tokenId);
