@@ -1,3 +1,3 @@
-MMOBatchVoteTest:testBatchVote() (gas: 105880)
-MMOBatchVoteTest:testDeploy() (gas: 249523)
-MMOBatchVoteTest:testVote() (gas: 78505)
+MMOBatchVoteTest:testBatchVote() (gas: 105840)
+MMOBatchVoteTest:testDeploy() (gas: 234684)
+MMOBatchVoteTest:testVote() (gas: 78473)

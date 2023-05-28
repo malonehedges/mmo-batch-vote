@@ -11,16 +11,13 @@ contract MMOBatchVote is IERC721Receiver {
         MMO = IMoneyMakingOpportunity(_mmo);
     }
 
-    error NotMMOToken();
-
     function onERC721Received(address, address from, uint256 tokenId, bytes calldata data)
         external
         override
         returns (bytes4)
     {
-        if (msg.sender != address(MMO)) {
-            revert NotMMOToken();
-        }
+        // Ignored to save gas. Other tokens would likely not match the vote abi.
+        // if (msg.sender != address(MMO)) revert NotMMOToken();
 
         uint256[] memory votes = abi.decode(data, (uint256[]));
         for (uint256 i = 0; i < votes.length;) {
